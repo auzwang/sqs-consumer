@@ -88,8 +88,8 @@ export interface ConsumerOptions {
   sqs?: SQS;
   region?: string;
   handleMessageTimeout?: number;
-  handleMessage?(message: SQSMessage): Promise<void>;
-  handleMessageBatch?(messages: SQSMessage[]): Promise<void>;
+  handleMessage?(message: SQSMessage): Promise<void | Error>;
+  handleMessageBatch?(messages: SQSMessage[]): Promise<void | Error>;
 }
 
 interface Events {
@@ -105,8 +105,8 @@ interface Events {
 
 export class Consumer extends EventEmitter {
   private queueUrl: string;
-  private handleMessage: (message: SQSMessage) => Promise<void>;
-  private handleMessageBatch: (message: SQSMessage[]) => Promise<void>;
+  private handleMessage: (message: SQSMessage) => Promise<void | Error>;
+  private handleMessageBatch: (message: SQSMessage[]) => Promise<void | Error>;
   private handleMessageTimeout: number;
   private attributeNames: string[];
   private messageAttributeNames: string[];
